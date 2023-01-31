@@ -1,9 +1,12 @@
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public class Student extends JFrame{
     private JPanel student;
@@ -24,7 +27,16 @@ public class Student extends JFrame{
         setVisible(true);
         setAlwaysOnTop(true);
         appInterface ad = (appInterface) Naming.lookup("rmi://localhost:1021/auth");
+        DefaultListModel<String> listModel = new DefaultListModel<>();
 
+
+        //afficher tout les class dans la liste
+        listModel.clear();
+        ArrayList<String> meetings = ad.getMeetings();
+        for(String i : meetings){
+            listModel.addElement(i);
+        }
+        LessonsList.setModel(listModel);
 
         helloLabel.setText("Welcome back, "+name);
 
@@ -51,6 +63,16 @@ public class Student extends JFrame{
                     throw new RuntimeException(ex);
                 }
             }
+        });
+
+        LessonsList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+
+                String element = LessonsList.getSelectedValue().toString();
+                new org.example.SwingPaint().show();
+            }
+
         });
     }
 }

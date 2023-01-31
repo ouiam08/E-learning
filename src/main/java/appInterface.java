@@ -39,7 +39,8 @@ public interface appInterface extends Remote {
     public void addClient(ClientInt clientInt) throws RemoteException;
     public ArrayList<String> getAllClassofProf(String name) throws  RemoteException;
     public void sendMessageBroadcast(String classname, String message) throws RemoteException;
-
+    public void addMeeting(String classname) throws RemoteException;
+    public ArrayList<String> getMeetings() throws RemoteException;
 
 
 }

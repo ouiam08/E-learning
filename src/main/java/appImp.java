@@ -10,15 +10,24 @@ import java.util.ArrayList;
 public class appImp extends UnicastRemoteObject implements appInterface {
     final String DB_URL = "jdbc:mysql://localhost:3306/elearning";
     final String USERNAME = "root";
+
+    public ArrayList<String> getMeetings() throws RemoteException {
+        return meetings;
+    }
+
     final String PASSWORD = "";
 
-
+//listes des admins connecter
     private  ArrayList<String> adminSession = new ArrayList<>();
+//liste des etudiants connecter
     private ArrayList<String> studentsSession = new ArrayList<>();
+//liste des profs connecter
     private ArrayList<String> profsSession = new ArrayList<>();
+//liste des etudiants qui rejoint le chat
     private ArrayList<ClientInt> chatters = new ArrayList<>();
-
-
+//listes des meetings
+    private ArrayList<String> meetings = new ArrayList<>();
+    //seters
     public void setAdminSession(ArrayList<String> adminSession) {
         this.adminSession = adminSession;
     }
@@ -30,7 +39,7 @@ public class appImp extends UnicastRemoteObject implements appInterface {
     public void setProfsSession(ArrayList<String> profsSession) {
         this.profsSession = profsSession;
     }
-
+//getters
     public ArrayList<String> getAdminSession() throws RemoteException{
         return adminSession;
     }
@@ -138,6 +147,7 @@ public class appImp extends UnicastRemoteObject implements appInterface {
     }
 
     public int auth(String userName, String password) throws RemoteException {
+        //permet l'identification
         int i = 0;
         boolean student = studentExist(userName, password);
         boolean admin = adminExist(userName, password);
@@ -166,7 +176,7 @@ public class appImp extends UnicastRemoteObject implements appInterface {
     }
 
     public int getTotalStudent() {
-
+//donner le total des etudiants
         int total = 0;
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
@@ -186,7 +196,7 @@ public class appImp extends UnicastRemoteObject implements appInterface {
     }
 
     public int getTotalProfs() {
-
+//donner le total des profs
         int total = 0;
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
@@ -206,7 +216,7 @@ public class appImp extends UnicastRemoteObject implements appInterface {
     }
 
     public int getTotalClasses() {
-
+//donner total des classes
         int total = 0;
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
@@ -226,6 +236,7 @@ public class appImp extends UnicastRemoteObject implements appInterface {
     }
 
     public ArrayList<String> getAllClass() throws RemoteException {
+        //retourner tout les classes
         ArrayList<String> result = new ArrayList<>();
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
@@ -283,6 +294,7 @@ public class appImp extends UnicastRemoteObject implements appInterface {
     }
 
     public int getIdClass(String nomClass) throws RemoteException {
+        //retourner if de classes
         int result = 0;
 
 
@@ -309,6 +321,7 @@ public class appImp extends UnicastRemoteObject implements appInterface {
     }
 
     public boolean studentExist(String name) {
+        //retourner si etudiant existe
         boolean result = false;
 
 
@@ -335,6 +348,7 @@ public class appImp extends UnicastRemoteObject implements appInterface {
     }
 
     public boolean profExist(String name) {
+        //retourner si le prof existe
         boolean result = false;
 
 
@@ -390,6 +404,7 @@ public class appImp extends UnicastRemoteObject implements appInterface {
         return result;
     }
     public ArrayList<String> getAllProf() throws RemoteException {
+        //retourner tout les prof
         ArrayList<String> result = new ArrayList<>();
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
@@ -415,6 +430,7 @@ public class appImp extends UnicastRemoteObject implements appInterface {
         return result;
     }
     public boolean classExist(String name) {
+        //retourner si la classe existe
         boolean result = false;
 
 
@@ -440,6 +456,7 @@ public class appImp extends UnicastRemoteObject implements appInterface {
         return result;
     }
     public int getIdProf(String nomprof) {
+        //retourner id de prof
         int result = 0;
 
 
@@ -465,6 +482,7 @@ public class appImp extends UnicastRemoteObject implements appInterface {
         return result;
     }
     public boolean insertClass(String name,int prof) {
+        //inserer la classe
         boolean result = false;
 
 //        String confirmPassword = mess.split("//")[5].trim();
@@ -492,6 +510,7 @@ public class appImp extends UnicastRemoteObject implements appInterface {
         return result;
     }
     public String getProfClass(String className) {
+        //retourner cla class du prof
         String result = "";
         int id_prof =0;
 
@@ -540,6 +559,7 @@ public class appImp extends UnicastRemoteObject implements appInterface {
 
     }
     public ArrayList<String> getAllStudent(String className) throws RemoteException {
+        //retourner tout les etudiants
         ArrayList<String> result = new ArrayList<>();
         int id_class = getIdClass(className);
         try {
@@ -567,6 +587,7 @@ public class appImp extends UnicastRemoteObject implements appInterface {
     }
 
     public boolean UpdateClass(String name,int prof,int id_class) {
+        //modifier une classe
         boolean result = false;
 
 //        String confirmPassword = mess.split("//")[5].trim();
@@ -597,6 +618,7 @@ public class appImp extends UnicastRemoteObject implements appInterface {
     }
 
     public boolean deleteClass(int idClass) throws Exception {
+        //supprimerune classe
 
         //methode qui permet de supprimer une classe  de la base de donnée
 
@@ -615,6 +637,7 @@ public class appImp extends UnicastRemoteObject implements appInterface {
     }
 
     public String getProfPassword(String profName){
+        //retourner le mot de passe
         String result = "";
 
 
@@ -924,7 +947,9 @@ public class appImp extends UnicastRemoteObject implements appInterface {
         }
     }
 
-
+    public void addMeeting(String classname) throws RemoteException{
+        meetings.add(classname);
+    }
 
 
 }

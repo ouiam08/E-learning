@@ -79,9 +79,11 @@ public class Prof extends JFrame{
                         }
                     }
                     if (exist){
-                        System.out.println("is a student of the prof");
+                        JOptionPane.showMessageDialog(Prof.this, "This student exist!", "Try again", JOptionPane.INFORMATION_MESSAGE);
+                        return;
                     } else if (!exist) {
-                        System.out.println("is not a student of the prof");
+                        JOptionPane.showMessageDialog(Prof.this, "This student doesn't exist!", "Try again", JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
 
 
@@ -114,6 +116,14 @@ public class Prof extends JFrame{
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                new org.example.SwingPaint().show();
+                try {
+                    int i =1;
+                    ad.addMeeting("meeting"+i);
+                    i++;
+                } catch (RemoteException ex) {
+                    throw new RuntimeException(ex);
+                }
 
             }
         });
